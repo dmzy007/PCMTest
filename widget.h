@@ -1,6 +1,8 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include <QAudioInput>
+#include <QAudioOutput>
 #include <QDebug>
 #include <QLabel>
 #include <QPixmap>
@@ -9,11 +11,13 @@
 #include <QUdpSocket>
 #include <QWidget>
 
+#include <QFile>
+
 typedef enum
 {
     AlarmIDLE = 0,
     AlarmCall,
-    ALarmCom,
+    AlarmCom,
     AlarmHang
 } AlarmStatusDef;
 
@@ -32,10 +36,12 @@ public:
     Widget(QHostAddress IP, QWidget *parent = nullptr);
     ~Widget();
 
+    void SoundCardInit(void);
     void CheckAlarm(void);
 public slots:
     void AlarmProcess();
     void RevData();
+    void RevAudioData();
 
 protected:
     void timerEvent(QTimerEvent *);
@@ -51,5 +57,12 @@ private:
 
     QUdpSocket *RCmdUdpSocket, *RAudioUdpSocket, *SUdpSocket;
     int         id;
+
+    QList<QAudioDeviceInfo> AudioOutputDeviceList;
+    QList<QAudioDeviceInfo> AudioInputDeviceList;
+    QAudioOutput *          AudioOutput;
+    QAudioInput *           AudioInput;
+    QIODevice *             AudioOutputDevice;
+    QIODevice *             AudioInputDevice;
 };
 #endif  // WIDGET_H
