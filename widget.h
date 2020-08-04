@@ -15,11 +15,11 @@
 
 typedef enum
 {
-    AlarmIDLE = 0,
-    AlarmCall,
-    AlarmCom,
-    AlarmHang
-} AlarmStatusDef;
+    IDLE = 0,
+    Call,
+    Com,
+    Hang
+} InterComStatusDef;  //对讲状态
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -38,10 +38,16 @@ public:
 
     void SoundCardInit(void);
     void CheckAlarm(void);
+
 public slots:
     void AlarmProcess();
-    void RevData();
-    void RevAudioData();
+    void RevDCUData();
+    void RevDCUAudioData();
+    void RevAlarmData();
+    void RevAlarmAudioData();
+    void SetLocal(QString str);
+    void InterComProcess();
+    void SendAudioData();
 
 protected:
     void timerEvent(QTimerEvent *);
@@ -53,11 +59,16 @@ private:
     QList<QLabel *>      AlarmLBList;
     QList<QPushButton *> AlarmPBList;
 
-    QMap<int, AlarmStatusDef> AlarmStatus;
+    QMap<int, InterComStatusDef>  AlarmStatus;
+    int                           AlarmIndex;
+    QPair<int, InterComStatusDef> DriverStatus;
 
-    QUdpSocket *RCmdUdpSocket, *RAudioUdpSocket, *SUdpSocket;
+    QUdpSocket *RAlarmUdpSocket, *RAlarmAudioUdpSocket, *SUdpSocket;
+    QUdpSocket *DCUUdpSocket, *DCUAudioUdpSocket;
     int         id;
 
+    QAudioFormat            Format;
+    QByteArray              AudioData;
     QList<QAudioDeviceInfo> AudioOutputDeviceList;
     QList<QAudioDeviceInfo> AudioInputDeviceList;
     QAudioOutput *          AudioOutput;
