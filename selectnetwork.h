@@ -6,6 +6,7 @@
 #include <QNetworkInterface>
 #include <QStringListModel>
 
+#include "pcmform.h"
 #include "widget.h"
 
 namespace Ui
@@ -28,8 +29,10 @@ private slots:
 private:
     Ui::SelectNetWork *ui;
     Widget *           widget;
+    PCMForm *          Form;
+    // QList<QHostAddress>                   IPList;
 
-    QList<QHostAddress> IPList;
+    QList<QPair<QNetworkInterface, QHostAddress>> IPList;
 };
 
 #endif  // SELECTNETWORK_H

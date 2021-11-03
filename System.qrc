@@ -1,10 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>images/ATV.ico</file>
-        <file>images/cgreen.png</file>
-        <file>images/cred.png</file>
-        <file>images/rgreen.png</file>
-        <file>images/rred.png</file>
-        <file>images/rwhite.png</file>
+        <file>images/ATV.rc</file>
     </qresource>
 </RCC>

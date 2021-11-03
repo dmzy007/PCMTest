@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PCMForm</class>
+ <widget class="QWidget" name="PCMForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>奥特维音频测试工具</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_5">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>接收音频参数设置</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="2" column="1">
+         <widget class="QComboBox" name="OutputDeviceBox"/>
+        </item>
+        <item row="5" column="1">
+         <widget class="QComboBox" name="OutputChannelsBox"/>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>音频格式</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="OutputSampleSizesBox"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>采样率</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QComboBox" name="OutputCodecsBox"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>音频输入设备</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>组播地址</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>声道数</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>位深</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QPushButton" name="ClearOutputTextPB">
+          <property name="text">
+           <string>清空显示</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="OutputAddress">
+          <item>
+           <property name="text">
+            <string>230.10.10.23</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>230.10.10.24</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>230.10.10.25</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>230.10.10.26</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="OutputSampleRateBox"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="PlaybackPB">
+          <property name="text">
+           <string>开始播放</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0" colspan="2">
+         <widget class="QPlainTextEdit" name="OutputPlainTextEdit"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="OutputPortBox">
+          <item>
+           <property name="text">
+            <string>20060</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>端口</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>发送音频参数设置</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="7" column="0">
+         <widget class="QPushButton" name="RecodePB">
+          <property name="text">
+           <string>开始发送</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0" colspan="2">
+         <widget class="QPlainTextEdit" name="InputPlainTextEdit"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>声道数</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="InputSampleSizesBox"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="InputDeviceBox"/>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="InputSampleRateBox"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>音频输出设备</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>音频格式</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>组播地址</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QComboBox" name="InputCodecsBox"/>
+        </item>
+        <item row="7" column="1">
+         <widget class="QPushButton" name="ClearInputTextPB">
+          <property name="text">
+           <string>清空显示</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="InputAddress">
+          <item>
+           <property name="text">
+            <string>230.10.10.23</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>230.10.10.24</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>230.10.10.25</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>230.10.10.26</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>采样率</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QComboBox" name="InputChannelsBox"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>位深</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>端口</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="InputPortBox">
+          <item>
+           <property name="text">
+            <string>20060</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

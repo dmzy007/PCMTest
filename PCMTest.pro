@@ -17,16 +17,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    selectnetwork.cpp \
-    widget.cpp
+    pcmform.cpp \
+    selectnetwork.cpp
+#    widget.cpp
 
 HEADERS += \
-    selectnetwork.h \
-    widget.h
+    pcmform.h \
+    selectnetwork.h
+#    widget.h
 
 FORMS += \
-    selectnetwork.ui \
-    widget.ui
+    pcmform.ui \
+    selectnetwork.ui
+#    widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -35,3 +38,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     System.qrc
+
+RC_FILE = $$PWD/images/ATV.rc

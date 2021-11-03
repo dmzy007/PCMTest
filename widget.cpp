@@ -1,8 +1,10 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-const QString RedLabel   = "min-width: 30px; min-height: 30px;max-width:30px; max-height: 30px;border-radius: 15px;  border:1px solid black;background:red";
-const QString GreenLabel = "min-width: 30px; min-height: 30px;max-width:30px; max-height: 30px;border-radius: 15px;  border:1px solid black;background:green";
+const QString RedLabel =
+    "min-width: 30px; min-height: 30px;max-width:30px; max-height: 30px;border-radius: 15px;  border:1px solid black;background:red";
+const QString GreenLabel =
+    "min-width: 30px; min-height: 30px;max-width:30px; max-height: 30px;border-radius: 15px;  border:1px solid black;background:green";
 
 const QString RedButton   = "background:red";
 const QString GreenButton = "background:green";
@@ -14,6 +16,8 @@ const QHostAddress AlarmAudioAddress = QHostAddress("230.10.10.26");
 const int          AlarmAudioPort    = 20060;
 const QHostAddress DCUAddress        = QHostAddress("230.10.10.12");
 const int          DCUPort           = 20010;
+const QHostAddress PCUAddress        = QHostAddress("230.10.10.11");
+const int          PCUPort           = 20010;
 const QHostAddress DCU1AudioAddress  = QHostAddress("230.10.10.24");
 const QHostAddress DCU2AudioAddress  = QHostAddress("230.10.10.25");
 const int          DCUAudioPort      = 20060;
@@ -76,6 +80,8 @@ Widget::Widget(QHostAddress IP, QWidget *parent) : QWidget(parent), ui(new Ui::W
         if (DCUAudioUdpSocket->joinMulticastGroup(DCU1AudioAddress))
         {
             qDebug() << "DCU1AudioAddress = " << DCU1AudioAddress;
+            AudioInputDevice  = AudioInput->start();
+            AudioOutputDevice = AudioOutput->start();
             connect(DCUAudioUdpSocket, SIGNAL(readyRead()), this, SLOT(RevDCUAudioData()));
         }
     }
@@ -111,6 +117,7 @@ void Widget::AlarmProcess()
 {
     int index = sender()->objectName().split('_').at(1).toInt() - 1;
     //    int locate = ((index / 4) + 1) * 16 + (index % 4) + 1;  //报警位置
+    qDebug() << "index = " << index;
 
     if (AlarmStatus[index] == IDLE)
     {
@@ -188,6 +195,7 @@ void Widget::RevDCUData()
         {
             if (Data.at(10) == 0x07 && (Data.at(9) == 0x03))  //收到对讲命令
             {
+                qDebug() << "Data.at(11) = " << (int)Data.at(11);
                 if (Data.at(11) == 0x01)  //呼叫
                 {
                     DriverStatus.second = Call;
@@ -250,10 +258,11 @@ void Widget::RevDCUAudioData()
         Data.resize(size);
 
         DCUAudioUdpSocket->readDatagram(Data.data(), size);
-        if (DriverStatus.second == Com)
-        {
-            AudioOutputDevice->write(Data);
-        }
+        //        if (DriverStatus.second == Com)
+        //        {
+        //            AudioOutputDevice->write(Data);
+        //        }
+        AudioOutputDevice->write(Data);
     }
 }
 
@@ -269,23 +278,10 @@ void Widget::CheckAlarm(void)
 
             Data[0]  = 0x7C;
             Data[1]  = cnt;
-            Data[3]  = ((i / 4) + 1) * 16 + (i % 4) + 1;
+            Data[2]  = 0x05;
             Data[3]  = ((i / 2) + 1) * 16 + (i % 2) + 1;
-            Data[4]  = 0x01;
-            Data[14] = 0x03;  //紧急对讲请求
-
-            Data[28] = 0x00;
-            Data[29] = 0x0D;
-
-            cnt++;
-
-            SUdpSocket->writeDatagram(Data, 30, DCUAddress, DCUPort);
-
-            Data[0]  = 0x7C;
-            Data[1]  = cnt;
-            Data[3]  = ((i / 4) + 1) * 16 + (i % 4) + 1;
-            Data[3]  = ((i / 2) + 1) * 16 + (i % 2) + 1;
-            Data[4]  = 0x06;
+            Data[4]  = 0x03;
+            Data[5]  = 0xFF;
             Data[14] = 0x03;  //紧急对讲请求
 
             Data[28] = 0x00;
@@ -304,24 +300,11 @@ void Widget::CheckAlarm(void)
 
             Data[0]  = 0x7C;
             Data[1]  = cnt;
-            Data[3]  = ((i / 4) + 1) * 16 + (i % 4) + 1;
+            Data[2]  = 0x05;
             Data[3]  = ((i / 2) + 1) * 16 + (i % 2) + 1;
-            Data[4]  = 0x01;
-            Data[14] = 0x04;  //紧急对讲挂起
-
-            Data[28] = 0x00;
-            Data[29] = 0x0D;
-
-            cnt++;
-
-            SUdpSocket->writeDatagram(Data, 30, DCUAddress, DCUPort);
-
-            Data[0]  = 0x7C;
-            Data[1]  = cnt;
-            Data[3]  = ((i / 4) + 1) * 16 + (i % 4) + 1;
-            Data[3]  = ((i / 2) + 1) * 16 + (i % 2) + 1;
-            Data[4]  = 0x01;
-            Data[14] = 0x04;  //紧急对讲挂起
+            Data[4]  = 0x03;
+            Data[5]  = 0xFF;
+            Data[14] = 0x00;  //紧急对讲挂断
 
             Data[28] = 0x00;
             Data[29] = 0x0D;
@@ -348,7 +331,7 @@ void Widget::SoundCardInit(void)
     }
 
     /*******************设置音频播放参数*****************/
-    const int SampleRate   = 16000;
+    const int SampleRate   = 44100;
     const int ChannelCount = 1;
     const int SampleSize   = 16;
 
@@ -511,7 +494,14 @@ void Widget::SendAudioData()
             QByteArray datagram = AudioData.mid(0, 1024);
             AudioData.remove(0, 1024);
 
-            SUdpSocket->writeDatagram(datagram, DCU1AudioAddress, DCUAudioPort);
+            if (ui->comboBox->currentIndex())
+            {
+                SUdpSocket->writeDatagram(datagram, DCU1AudioAddress, DCUAudioPort);
+            }
+            else
+            {
+                SUdpSocket->writeDatagram(datagram, DCU2AudioAddress, DCUAudioPort);
+            }
         }
     }
 

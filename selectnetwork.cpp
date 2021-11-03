@@ -18,9 +18,10 @@ void SelectNetWork::ListNetWork(void)
 {
     int i = 0, j = 0;
 
-    QStringList NewWorkList;
+    QStringList                            NewWorkList;
+    QPair<QNetworkInterface, QHostAddress> IP;
+    QList<QNetworkInterface>               networkInterface = QNetworkInterface::allInterfaces();
 
-    QList<QNetworkInterface> networkInterface = QNetworkInterface::allInterfaces();
     for (QList<QNetworkInterface>::const_iterator it = networkInterface.constBegin(); it != networkInterface.constEnd(); ++it)
     {
         //获取连接地址列表
@@ -32,13 +33,20 @@ void SelectNetWork::ListNetWork(void)
                 if ((*jIt).ip().protocol() == QAbstractSocket::IPv4Protocol)
                 {
                     QString str = (*it).humanReadableName() + " IPV4 " + (*jIt).ip().toString().split('%').at(0);
-                    IPList.append(QHostAddress((*jIt).ip().toString().split('%').at(0)));
+                    IP.first    = *it;
+                    IP.second   = QHostAddress((*jIt).ip().toString().split('%').at(0));
+                    IPList.append(IP);
+
                     NewWorkList.append(str);
                 }
                 else if ((*jIt).ip().protocol() == QAbstractSocket::IPv6Protocol)
                 {
                     QString str = (*it).humanReadableName() + " IPV6 " + (*jIt).ip().toString().split('%').at(0);
-                    IPList.append(QHostAddress((*jIt).ip().toString().split('%').at(0)));
+
+                    IP.first  = *it;
+                    IP.second = QHostAddress((*jIt).ip().toString().split('%').at(0));
+                    IPList.append(IP);
+
                     NewWorkList.append(str);
                 }
 
@@ -54,7 +62,8 @@ void SelectNetWork::ListNetWork(void)
 
 void SelectNetWork::on_ListView_doubleClicked(const QModelIndex &index)
 {
-    widget = new Widget(IPList.at(index.row()));
+    //    widget = new Widget(IPList.at(index.row()));
+    Form = new PCMForm(IPList.at(index.row()));
     hide();
-    widget->show();
+    Form->show();
 }
